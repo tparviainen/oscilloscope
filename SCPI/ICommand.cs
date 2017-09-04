@@ -15,6 +15,12 @@ namespace SCPI
         string Description { get; }
 
         /// <summary>
+        /// Help message about the command and it's parameters
+        /// </summary>
+        /// <returns></returns>
+        string HelpMessage();
+
+        /// <summary>
         /// Creates the SCPI command based on the input data
         /// </summary>
         /// <param name="parameters">List of parameters that is used to form the command</param>

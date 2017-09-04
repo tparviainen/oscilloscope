@@ -13,6 +13,11 @@ namespace SCPI
         public string SerialNumber { get; private set; }
         public string SoftwareVersion { get; private set; }
 
+        public string HelpMessage()
+        {
+            return nameof(IDN);
+        }
+
         public string Command(params object[] parameters)
         {
             return "*IDN?";

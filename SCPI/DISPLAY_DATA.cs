@@ -31,6 +31,19 @@ namespace SCPI
 
         private byte[] data;
 
+        public string HelpMessage()
+        {
+            var parameters = nameof(DISPLAY_DATA) + " [<color>, <invert>, <format>]\n";
+
+            parameters += " <color>, {ON|OFF}\n";
+            parameters += " <invert>, {{1|ON}|{0|OFF}}\n";
+            parameters += " <format>, {BMP24|BMP8|PNG|JPEG|TIFF}\n\n";
+
+            parameters += "Example: " + nameof(DISPLAY_DATA) + " ON, 0, TIFF";
+
+            return parameters;
+        }
+
         public string Command(params object[] parameters)
         {
             var cmd = ":DISPlay:DATA?";
