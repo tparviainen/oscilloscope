@@ -44,25 +44,25 @@ namespace SCPI
             return parameters;
         }
 
-        public string Command(params object[] parameters)
+        public string Command(params string[] parameters)
         {
             var cmd = ":DISPlay:DATA?";
 
             if (parameters.Length > 0)
             {
-                var color = parameters[0].ToString();
+                var color = parameters[0];
                 cmd = $"{cmd} {color}";
             }
 
             if (parameters.Length > 1)
             {
-                var invert = parameters[1].ToString();
+                var invert = parameters[1];
                 cmd = $"{cmd}, {invert}";
             }
 
             if (parameters.Length > 2)
             {
-                var format = parameters[2].ToString();
+                var format = parameters[2];
                 cmd = $"{cmd}, {format}";
             }
 

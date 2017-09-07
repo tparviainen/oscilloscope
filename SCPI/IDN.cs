@@ -18,7 +18,7 @@ namespace SCPI
             return nameof(IDN);
         }
 
-        public string Command(params object[] parameters)
+        public string Command(params string[] parameters)
         {
             return "*IDN?";
         }

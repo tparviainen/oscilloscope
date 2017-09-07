@@ -25,7 +25,7 @@ namespace SCPI
         /// </summary>
         /// <param name="parameters">List of parameters that is used to form the command</param>
         /// <returns>SCPI command</returns>
-        string Command(params object[] parameters);
+        string Command(params string[] parameters);
 
         /// <summary>
         /// Parses and validates the data received from the instrument
