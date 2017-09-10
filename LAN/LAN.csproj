@@ -9,4 +9,8 @@
     <ProjectReference Include="..\PluginContracts\PluginContracts.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if not exist $(SolutionDir)Libs mkdir $(SolutionDir)Libs&#xD;&#xA;copy /y $(TargetPath) $(SolutionDir)Libs&#xD;&#xA;" />
+  </Target>
+
 </Project>
