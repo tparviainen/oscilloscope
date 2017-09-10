@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y $(SolutionDir)Libs\*.* $(TargetDir)&#xD;&#xA;" />
+    <Exec Command="copy /y $(ProjectDir)..\Libs\*.* $(TargetDir)" />
   </Target>
 
 </Project>
