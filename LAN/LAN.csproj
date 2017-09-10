@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if not exist $(SolutionDir)Libs mkdir $(SolutionDir)Libs&#xD;&#xA;copy /y $(TargetPath) $(SolutionDir)Libs&#xD;&#xA;" />
+    <Exec Command="if not exist $(ProjectDir)..\Libs mkdir $(ProjectDir)..\Libs&#xD;&#xA;copy /y $(TargetPath) $(ProjectDir)..\Libs" />
   </Target>
 
 </Project>
