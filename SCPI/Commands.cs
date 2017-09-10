@@ -27,13 +27,11 @@ namespace SCPI
         /// <returns>Instance of the requested command</returns>
         public ICommand Get(string command)
         {
-            ICommand cmd = null;
-
             // Command classes (inherited from ICommand) are always uppercase and thus
             // command must be uppercase as well to match supported commands.
             command = command.ToUpper();
 
-            if (!commands.TryGetValue(command, out cmd))
+            if (!commands.TryGetValue(command, out ICommand cmd))
             {
                 // Lazy initialization of the command
                 var typeInfo = SupportedCommands().Where(ti => ti.Name.Equals(command)).Single();
