@@ -29,6 +29,10 @@ namespace SCPI
         {
             ICommand cmd = null;
 
+            // Command classes (inherited from ICommand) are always uppercase and thus
+            // command must be uppercase as well to match supported commands.
+            command = command.ToUpper();
+
             if (!commands.TryGetValue(command, out cmd))
             {
                 // Lazy initialization of the command
