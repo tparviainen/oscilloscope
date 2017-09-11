@@ -14,9 +14,9 @@ namespace SCPI
         /// Creates a list of supported commands in the SCPI assembly
         /// </summary>
         /// <returns>The names of the supported commands</returns>
-        public ICollection<string> Names()
+        public IEnumerable<string> Names()
         {
-            return SupportedCommands().Select(t => t.Name).ToList();
+            return SupportedCommands().Select(t => t.Name);
         }
 
         /// <summary>
