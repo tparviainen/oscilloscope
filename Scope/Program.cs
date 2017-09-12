@@ -142,12 +142,12 @@ namespace Scope
             Console.WriteLine("Usage: scope [optional] <required>");
             Console.WriteLine();
             Console.WriteLine("Required arguments:");
-            Console.WriteLine(" -i <interface> <args>");
-            Console.WriteLine(" -c <command> <args>");
+            Console.WriteLine(" -i <interface> <arg>");
+            Console.WriteLine(" -c <command> [<arg> ...]");
             Console.WriteLine();
             Console.WriteLine("Optional arguments:");
             Console.WriteLine(" -o <output-filename>");
-            Console.WriteLine(" -p <plugin-folder> <plugin-folder> ...");
+            Console.WriteLine(" -p <plugin-folder> [<plugin-folder> ...]");
             Console.WriteLine(" -s (list of supported commands)");
             Console.WriteLine();
             Console.WriteLine("Examples:");
