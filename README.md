@@ -1,5 +1,5 @@
 # Oscilloscope
-SW that allows to control DSO (Digital Storage Oscilloscope) via LAN interface. Implementation and testing is done using Rigol DS1054Z oscilloscope that has SW version 00.04.04.SP3.
+This repo contains Scope .NET Core application and SCPI .NET Standard library that can be used to control DSO (Digital Storage Oscilloscope) via LAN interface. Implementation and testing of the new functionality is done using Rigol DS1054Z oscilloscope that has SW version 00.04.04.SP3.
 
 ## LAN Interface
 At the moment LAN interface is the only one supported. When connecting to Rigol oscilloscope the IP address and PORT number are required. Rigol oscilloscopes use **PORT number 5555** and the IP address what the router gives to the oscilloscope. The network connection status (press `Utility > IO Settings > LAN Conf.`) shows the current IP address of the instrument (see screenshot below).
