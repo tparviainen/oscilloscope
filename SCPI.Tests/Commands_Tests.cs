@@ -22,7 +22,7 @@ namespace SCPI.Tests
         }
 
         [Fact]
-        public void LazyLoadingWorks()
+        public void LazyInitializationWorks()
         {
             // Arrange
             var commands = new Commands();
