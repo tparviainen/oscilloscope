@@ -12,7 +12,7 @@ namespace LAN.Tests
         private int PORT = 5555;
 
         [Fact]
-        public async Task QueryTheIdStringOfTheInstrument()
+        public async Task QueryTheIdStringOfTheInstrumentAsync()
         {
             // Arrange
             var ep = new IPEndPoint(IPAddress.Parse(IP), PORT);
@@ -20,14 +20,14 @@ namespace LAN.Tests
             var cmd = "*IDN?";
 
             // Act
-            var resp = Encoding.ASCII.GetString(await lanIf.SendReceive(cmd));
+            var resp = Encoding.ASCII.GetString(await lanIf.SendReceiveAsync(cmd));
 
             // Assert
             Assert.Contains("RIGOL TECHNOLOGIES", resp);
         }
 
         [Fact]
-        public async Task ReadTheImageCurrentlyDisplayedOnTheScreen()
+        public async Task ReadTheImageCurrentlyDisplayedOnTheScreenAsync()
         {
             // Arrange
             var ep = new IPEndPoint(IPAddress.Parse(IP), PORT);
@@ -35,7 +35,7 @@ namespace LAN.Tests
             var cmd = ":DISPlay:DATA?";
 
             // Act
-            var resp = await lanIf.SendReceive(cmd);
+            var resp = await lanIf.SendReceiveAsync(cmd);
 
             // Assert
             Assert.NotNull(resp);

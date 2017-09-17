@@ -29,7 +29,7 @@ namespace Scope
                 }
                 else
                 {
-                    Run(args).GetAwaiter().GetResult();
+                    RunAsync(args).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace Scope
             }
         }
 
-        static async Task Run(string[] args)
+        static async Task RunAsync(string[] args)
         {
             // -i <interface> <args>
             var communicationInterface = ParseArguments("-i", args);
@@ -81,7 +81,7 @@ namespace Scope
 
                 var scpiCommand = commandInstance.Command(command.ToArray());
 
-                var data = await plugin.SendReceive(scpiCommand);
+                var data = await plugin.SendReceiveAsync(scpiCommand);
 
                 if (commandInstance.Parse(data))
                 {

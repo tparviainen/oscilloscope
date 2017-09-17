@@ -16,7 +16,7 @@ namespace LAN
 
         public IPEndPoint IPEndPoint { get; set; }
 
-        public async Task<byte[]> SendReceive(string command)
+        public async Task<byte[]> SendReceiveAsync(string command)
         {
             using (var socket = new Socket(IPEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
             {

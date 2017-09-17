@@ -16,6 +16,6 @@ namespace PluginContracts
         /// </summary>
         /// <param name="command">Command to send</param>
         /// <returns>Received data</returns>
-        Task<byte[]> SendReceive(string command);
+        Task<byte[]> SendReceiveAsync(string command);
     }
 }
