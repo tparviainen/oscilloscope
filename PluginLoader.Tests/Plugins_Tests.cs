@@ -8,7 +8,7 @@ namespace PluginLoader.Tests
     public class Plugins_Tests
     {
         [Fact]
-        public void PluginsFound()
+        public void PluginsFoundFromLibsFolder()
         {
             // Arrange
             var path = @"..\..\..\..\LAN\bin\Debug\netstandard1.3";
@@ -21,7 +21,7 @@ namespace PluginLoader.Tests
         }
 
         [Fact]
-        public void PluginsNotFound()
+        public void PluginsNotFoundFromCurrentFolder()
         {
             // Arrange
             var path = @".";
