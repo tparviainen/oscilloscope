@@ -11,7 +11,7 @@ namespace PluginLoader.Tests
         public void PluginsFoundFromLibsFolder()
         {
             // Arrange
-            var path = @"..\..\..\..\LAN\bin\Debug\netstandard1.3";
+            var path = @"..\..\..\..\Libs";
 
             // Act
             var plugins = Plugins<IPluginV1>.Load(path);
