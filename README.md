@@ -64,12 +64,12 @@ Examples:
  scope -s
 ```
 
-That gives an idea how to use `scope` app and what arguments are required. When using dotnet command line to run the application the command `scope` must be replaced with the command `dotnet run` i.e.:
+That gives an idea how to use `scope` app and what arguments are required. When using dotnet command line to run the application the command `scope` must be replaced with the command `dotnet run --` i.e.:
 
 ```
 Examples:
- dotnet run -i LAN 192.168.1.160:5555 -c IDN
- dotnet run -i LAN 192.168.1.160:5555 -c RAW *IDN?
- dotnet run -i LAN 192.168.1.160:5555 -c RAW *IDN? -o received.raw
- dotnet run -s
+ dotnet run -- -i LAN 192.168.1.160:5555 -c IDN
+ dotnet run -- -i LAN 192.168.1.160:5555 -c RAW *IDN?
+ dotnet run -- -i LAN 192.168.1.160:5555 -c RAW *IDN? -o received.raw
+ dotnet run -- -s
 ```
