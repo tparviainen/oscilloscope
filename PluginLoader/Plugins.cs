@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Loader;
 
 namespace PluginLoader
 {
@@ -17,9 +16,6 @@ namespace PluginLoader
         {
             var plugins = new List<T>();
 
-            // Convert relative path to absolute (needed by LoadFromAssemblyPath)
-            path = Path.GetFullPath(path);
-
             if (Directory.Exists(path))
             {
                 Type pluginType = typeof(T);
@@ -29,7 +25,7 @@ namespace PluginLoader
 
                 foreach (var assemblyPath in assemblies)
                 {
-                    var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
+                    var assembly = Assembly.LoadFrom(assemblyPath);
 
                     foreach (var type in assembly.GetTypes())
                     {
