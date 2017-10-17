@@ -1,0 +1,27 @@
+﻿<Window x:Class="Scope.Wpf.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Scope.Wpf.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open"/>
+                <MenuItem Header="_Close"/>
+                <MenuItem Header="_Save"/>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <TextBlock Text="{Binding Path=Instrument.Id}"></TextBlock>
+        </StatusBar>
+        <StackPanel>
+            <TextBlock Text="{Binding Path=Connection.IP}"></TextBlock>
+            <Button Content="Connect" Command="{Binding Path=CmdConnect}"></Button>
+            <Button Content="Fetch Image" Command="{Binding Path=CmdFetch}"></Button>
+            <Image Source="{Binding Path=Screenshot.Image}"></Image>
+        </StackPanel>
+    </DockPanel>
+</Window>

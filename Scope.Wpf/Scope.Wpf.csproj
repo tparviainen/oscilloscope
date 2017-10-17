@@ -7,7 +7,7 @@
     <ProjectGuid>{3C228B6A-39FB-49C3-9FCA-4C019DCB9BFF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Scope.Wpf</RootNamespace>
-    <AssemblyName>Scope.Wpf</AssemblyName>
+    <AssemblyName>Scope</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -54,18 +54,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Controls\Command.cs" />
+    <Compile Include="Models\NetworkEndPoint.cs" />
+    <Compile Include="Models\Instrument.cs" />
+    <Compile Include="Models\Screenshot.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -93,5 +97,22 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PluginContracts\PluginContracts.csproj">
+      <Project>{15e477d8-f1a9-4414-a12a-853b7e98ec61}</Project>
+      <Name>PluginContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginLoader\PluginLoader.csproj">
+      <Project>{f5c18e65-c0c3-421d-b7fc-82ee9513baf7}</Project>
+      <Name>PluginLoader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SCPI\SCPI.csproj">
+      <Project>{f35aaf35-565a-467f-92b6-d0f5b90bc0d2}</Project>
+      <Name>SCPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>copy /y $(ProjectDir)..\Libs\*.* $(TargetDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

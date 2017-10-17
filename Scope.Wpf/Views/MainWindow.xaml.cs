@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Scope.Wpf.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Scope.Wpf
+namespace Scope.Wpf.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,6 +23,8 @@ namespace Scope.Wpf
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = new MainWindowViewModel();
         }
     }
 }
