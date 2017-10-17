@@ -11,8 +11,9 @@ namespace PluginLoader
         /// Loads interface plugins from the specified location.
         /// </summary>
         /// <param name="path">Load path</param>
+        /// <param name="searchPattern">Plugin file search pattern, default "if_*.dll"</param>
         /// <returns></returns>
-        public static ICollection<T> Load(string path)
+        public static ICollection<T> Load(string path, string searchPattern = "if_*.dll")
         {
             var plugins = new List<T>();
 
@@ -20,8 +21,7 @@ namespace PluginLoader
             {
                 Type pluginType = typeof(T);
 
-                // All interface plugins have "if_" prefix
-                var assemblies = Directory.GetFiles(path, "if_*.dll");
+                var assemblies = Directory.GetFiles(path, searchPattern);
 
                 foreach (var assemblyPath in assemblies)
                 {
