@@ -13,6 +13,14 @@
                 <MenuItem Header="_Close"/>
                 <MenuItem Header="_Save"/>
             </MenuItem>
+            <MenuItem Header="_Connection" ItemsSource="{Binding Interfaces}">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Header" Value="{Binding Plugin.Name}"></Setter>
+                        <Setter Property="Command" Value="{Binding CmdSelect}"></Setter>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+            </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <TextBlock Text="{Binding Path=Instrument.Id}"></TextBlock>

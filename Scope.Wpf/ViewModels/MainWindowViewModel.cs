@@ -5,6 +5,7 @@ using Scope.Wpf.Models;
 using SCPI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -25,13 +26,25 @@ namespace Scope.Wpf.ViewModels
 
         private string pluginPath = @".";
 
+        public ObservableCollection<ConnectionInterface> Interfaces { get; private set; } = new ObservableCollection<ConnectionInterface>();
+
         public MainWindowViewModel()
         {
             Connection.Port = "5555";
             Connection.IP = "192.168.1.160";
 
+            LoadInterfaces(pluginPath);
+
             CmdConnect = new Command(Connect, null);
             CmdFetch = new Command(Fetch, () => Instrument.Id != null);
+        }
+
+        private void LoadInterfaces(string path)
+        {
+            foreach (var item in Plugins<IPluginV1>.Load(path))
+            {
+                Interfaces.Add(new ConnectionInterface(item));
+            }
         }
 
         private void Connect()
