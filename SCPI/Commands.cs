@@ -44,6 +44,29 @@ namespace SCPI
             return cmd;
         }
 
+        /// <summary>
+        /// Creates an instance of the requested command (if it does not exist)
+        /// and returns an actual type of the command to the caller.
+        /// </summary>
+        /// <param name="command">Command name</param>
+        /// <returns>Instance of the requested command</returns>
+        public T Get<T>() where T : ICommand
+        {
+            var command = typeof(T).Name;
+
+            if (!commands.TryGetValue(command, out ICommand cmd))
+            {
+                // Lazy initialization of the command
+                var typeInfo = SupportedCommands().Where(ti => ti.Name.Equals(command)).Single();
+
+                cmd = (ICommand)Activator.CreateInstance(typeInfo.AsType());
+
+                commands.Add(command, cmd);
+            }
+
+            return (T)cmd;
+        }
+
         private static IEnumerable<TypeInfo> SupportedCommands()
         {
             var assembly = typeof(ICommand).GetTypeInfo().Assembly;
