@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LAN\LAN.csproj" />
+    <ProjectReference Include="..\SCPI\SCPI.csproj" />
   </ItemGroup>
 
 </Project>
