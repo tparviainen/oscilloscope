@@ -55,6 +55,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\Command.cs" />
+    <Compile Include="Models\ConnectionInterface.cs" />
     <Compile Include="Models\NetworkEndPoint.cs" />
     <Compile Include="Models\Instrument.cs" />
     <Compile Include="Models\Screenshot.cs" />
