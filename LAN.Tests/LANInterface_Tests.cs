@@ -1,4 +1,6 @@
+using SCPI;
 using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +19,19 @@ namespace LAN.Tests
             // Arrange
             var ep = new IPEndPoint(IPAddress.Parse(IP), PORT);
             var lanIf = new LANInterface() { IPEndPoint = ep };
-            var cmd = "*IDN?";
+            var commands = new Commands();
+            var command = commands.Get<IDN>();
 
             // Act
-            var resp = Encoding.ASCII.GetString(await lanIf.SendReceiveAsync(cmd));
+            var resp = await lanIf.SendReceiveAsync(command.Command());
+            var ret = command.Parse(resp);
 
             // Assert
-            Assert.Contains("RIGOL TECHNOLOGIES", resp);
+            Assert.True(ret);
+            Assert.Equal("RIGOL TECHNOLOGIES", command.Manufacturer);
+            Assert.NotEmpty(command.Model);
+            Assert.NotEmpty(command.SerialNumber);
+            Assert.NotEmpty(command.SoftwareVersion);
         }
 
         [Fact]
@@ -32,12 +40,20 @@ namespace LAN.Tests
             // Arrange
             var ep = new IPEndPoint(IPAddress.Parse(IP), PORT);
             var lanIf = new LANInterface() { IPEndPoint = ep };
-            var cmd = ":DISPlay:DATA?";
+            var commands = new Commands();
+            var command = commands.Get<DISPLAY_DATA>();
 
             // Act
-            var resp = await lanIf.SendReceiveAsync(cmd);
+            var resp = await lanIf.SendReceiveAsync(command.Command());
+
+            var ret = command.Parse(resp);
+            if (ret == true)
+            {
+                File.WriteAllBytes($"Screenshot-{DateTime.Now:yyyyMMddTHHmmss}.bmp", command.ImageData());
+            }
 
             // Assert
+            Assert.True(ret);
             Assert.NotNull(resp);
         }
     }
