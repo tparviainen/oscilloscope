@@ -3,7 +3,6 @@ using PluginLoader;
 using Scope.Extensions;
 using SCPI;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -22,7 +21,7 @@ namespace Scope
             try
             {
                 // -s (list of supported commands)
-                if (Array.Exists(args, p => p.Equals("-s", StringComparison.CurrentCultureIgnoreCase)))
+                if (args.Exists("-s"))
                 {
                     var commands = new Commands();
 
@@ -42,10 +41,10 @@ namespace Scope
         static async Task RunAsync(string[] args)
         {
             // -i <interface> <args>
-            var communicationInterface = ParseArguments("-i", args);
+            var communicationInterface = args.Parse("-i");
 
             // -c <command> <args>
-            var command = ParseArguments("-c", args);
+            var command = args.Parse("-c");
 
             if (communicationInterface.Count == 0 || command.Count == 0)
             {
@@ -58,7 +57,7 @@ namespace Scope
             var plugins = Plugins<IPluginV1>.Load(assemblyFolder).ToList();
 
             // -p <plugin-folder> <plugin-folder> ...
-            var additionalPlugins = ParseArguments("-p", args);
+            var additionalPlugins = args.Parse("-p");
             if (additionalPlugins.Count != 0)
             {
                 foreach (var pluginFolder in additionalPlugins)
@@ -86,7 +85,7 @@ namespace Scope
 
                 if (commandInstance.Parse(data))
                 {
-                    var outputFileName = ParseArguments("-o", args);
+                    var outputFileName = args.Parse("-o");
                     if (outputFileName.Count != 0)
                     {
                         File.WriteAllBytes(outputFileName.First(), data);
@@ -107,32 +106,6 @@ namespace Scope
             {
                 Console.WriteLine($"Cannot find requested interface plugin, {communicationInterface[0]}");
             }
-        }
-
-        /// <summary>
-        /// Parses argument values from the array based on the argument name.
-        /// </summary>
-        /// <param name="name">The name of the argument to parse (-a, -b, -c, ...)</param>
-        /// <param name="args">The array of all arguments and values</param>
-        /// <returns>Arguments, or null if name not found</returns>
-        private static List<string> ParseArguments(string name, string[] args)
-        {
-            var values = new List<string>();
-
-            for (int i = 0; i < args.Length; i++)
-            {
-                if (name.Equals(args[i], StringComparison.CurrentCultureIgnoreCase))
-                {
-                    while (++i < args.Length && !args[i].StartsWith("-"))
-                    {
-                        values.Add(args[i]);
-                    }
-
-                    return values;
-                }
-            }
-
-            return values;
         }
 
         /// <summary>
