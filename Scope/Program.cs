@@ -149,6 +149,7 @@ namespace Scope
             Console.WriteLine(" -h (help message about the command)");
             Console.WriteLine();
             Console.WriteLine("Examples:");
+            Console.WriteLine(" scope -c RAW -h");
             Console.WriteLine(" scope -i LAN 192.168.1.160:5555 -c IDN");
             Console.WriteLine(" scope -i LAN 192.168.1.160:5555 -c RAW *IDN?");
             Console.WriteLine(" scope -i LAN 192.168.1.160:5555 -c RAW *IDN? -o received.raw");
