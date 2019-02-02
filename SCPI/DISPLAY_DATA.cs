@@ -10,24 +10,12 @@ namespace SCPI
         /// <summary>
         /// The width of the data length in the TMC header
         /// </summary>
-        private int N
-        {
-            get
-            {
-                return int.Parse(Encoding.ASCII.GetString(data, 1, 1));
-            }
-        }
+        private int N => int.Parse(Encoding.ASCII.GetString(data, 1, 1));
 
         /// <summary>
         /// The length of the data stream in bytes
         /// </summary>
-        private int ImageDataLength
-        {
-            get
-            {
-                return int.Parse(Encoding.ASCII.GetString(data, 2, N));
-            }
-        }
+        private int ImageDataLength => int.Parse(Encoding.ASCII.GetString(data, 2, N));
 
         private byte[] data;
 
@@ -99,10 +87,7 @@ namespace SCPI
         /// Returns a TMC blockheader from the data stream
         /// </summary>
         /// <returns>TMC blockheader</returns>
-        public string TMCBlockheader()
-        {
-            return Encoding.ASCII.GetString(data, 0, N + 2);
-        }
+        public string TMCBlockheader() => Encoding.ASCII.GetString(data, 0, N + 2);
 
         /// <summary>
         /// Creates a new buffer that contains only the image data from the received data
