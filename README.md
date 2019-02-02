@@ -56,8 +56,10 @@ Optional arguments:
  -o <output-filename>
  -p <plugin-folder> [<plugin-folder> ...]
  -s (list of supported commands)
+ -h (help message about the command)
 
 Examples:
+ scope -c RAW -h
  scope -i LAN 192.168.1.160:5555 -c IDN
  scope -i LAN 192.168.1.160:5555 -c RAW *IDN?
  scope -i LAN 192.168.1.160:5555 -c RAW *IDN? -o received.raw
