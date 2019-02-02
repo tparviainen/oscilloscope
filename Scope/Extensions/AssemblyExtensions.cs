@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
-namespace Scope
+namespace Scope.Extensions
 {
-    public static class AssemblyHelper
+    public static class AssemblyExtensions
     {
         /// <summary>
         /// Returns an assembly's containing folder on disk
@@ -14,7 +12,7 @@ namespace Scope
         /// <param name="assembly">Assembly whose location will be determined</param>
         /// <returns>The location of the assembly on disk or null if it
         /// cannot be determined.</returns>
-        public static string GetAssemblyFolder(Assembly assembly)
+        public static string GetAssemblyFolder(this Assembly assembly)
         {
             try
             {

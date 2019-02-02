@@ -1,5 +1,6 @@
 ﻿using PluginContracts;
 using PluginLoader;
+using Scope.Extensions;
 using SCPI;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace Scope
             }
 
             // Load the interface assemblies from the application's folder
-            var assemblyFolder = AssemblyHelper.GetAssemblyFolder(Assembly.GetEntryAssembly());
+            var assemblyFolder = Assembly.GetEntryAssembly().GetAssemblyFolder();
             var plugins = Plugins<IPluginV1>.Load(assemblyFolder).ToList();
 
             // -p <plugin-folder> <plugin-folder> ...
