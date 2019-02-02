@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 
 namespace SCPI
@@ -13,15 +12,9 @@ namespace SCPI
         public string SerialNumber { get; private set; }
         public string SoftwareVersion { get; private set; }
 
-        public string HelpMessage()
-        {
-            return nameof(IDN);
-        }
+        public string HelpMessage() => nameof(IDN);
 
-        public string Command(params string[] parameters)
-        {
-            return "*IDN?";
-        }
+        public string Command(params string[] parameters) => "*IDN?";
 
         public bool Parse(byte[] data)
         {
