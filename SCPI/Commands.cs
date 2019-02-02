@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace SCPI
 {
@@ -14,10 +13,7 @@ namespace SCPI
         /// Creates a list of supported commands in the SCPI assembly
         /// </summary>
         /// <returns>The names of the supported commands</returns>
-        public IEnumerable<string> Names()
-        {
-            return SupportedCommands().Select(t => t.Name);
-        }
+        public IEnumerable<string> Names() => SupportedCommands().Select(t => t.Name);
 
         /// <summary>
         /// Creates an instance of the requested command (if it does not exist)
