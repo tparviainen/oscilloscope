@@ -66,7 +66,7 @@ namespace Scope
             }
 
             var additionalPlugins = args.Parse("-p");
-            var plugins = LoadPlugins(additionalPlugins);
+            var plugins = LoadPlugins<IPluginV1>(additionalPlugins);
 
             // Find the correct plugin to use for communicating with the instrument
             var plugin = plugins.FirstOrDefault(p => p.Name.Equals(communicationInterface[0], StringComparison.CurrentCultureIgnoreCase));
@@ -113,18 +113,18 @@ namespace Scope
         /// </summary>
         /// <param name="additionalPlugins">Additional plugins folder</param>
         /// <returns></returns>
-        private static List<IPluginV1> LoadPlugins(List<string> additionalPlugins)
+        private static List<T> LoadPlugins<T>(List<string> additionalPlugins) where T : class
         {
             // Load the interface assemblies from the application's folder
             var assemblyFolder = Assembly.GetEntryAssembly().GetAssemblyFolder();
-            var plugins = Plugins<IPluginV1>.Load(assemblyFolder).ToList();
+            var plugins = Plugins<T>.Load(assemblyFolder).ToList();
 
             // Load the interface assemblies from the specified folders
             if (additionalPlugins.Count != 0)
             {
                 foreach (var pluginFolder in additionalPlugins)
                 {
-                    plugins.AddRange(Plugins<IPluginV1>.Load(pluginFolder));
+                    plugins.AddRange(Plugins<T>.Load(pluginFolder));
                 }
             }
 
