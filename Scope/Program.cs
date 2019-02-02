@@ -3,6 +3,7 @@ using PluginLoader;
 using Scope.Extensions;
 using SCPI;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,16 +21,16 @@ namespace Scope
 
             try
             {
+                var commands = new Commands();
+
                 // -s (list of supported commands)
                 if (args.Exists("-s"))
                 {
-                    var commands = new Commands();
-
                     Console.Write($"Supported commands: {string.Join(", ", commands.Names())}");
                 }
                 else
                 {
-                    RunAsync(args).GetAwaiter().GetResult();
+                    RunAsync(args, commands).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
@@ -38,33 +39,34 @@ namespace Scope
             }
         }
 
-        static async Task RunAsync(string[] args)
+        static async Task RunAsync(string[] args, Commands commands)
         {
-            // -i <interface> <args>
-            var communicationInterface = args.Parse("-i");
-
-            // -c <command> <args>
+            // Command is a required argument
             var command = args.Parse("-c");
-
-            if (communicationInterface.Count == 0 || command.Count == 0)
+            if (command.Count == 0)
             {
                 Usage();
                 return;
             }
 
-            // Load the interface assemblies from the application's folder
-            var assemblyFolder = Assembly.GetEntryAssembly().GetAssemblyFolder();
-            var plugins = Plugins<IPluginV1>.Load(assemblyFolder).ToList();
-
-            // -p <plugin-folder> <plugin-folder> ...
-            var additionalPlugins = args.Parse("-p");
-            if (additionalPlugins.Count != 0)
+            // Command specific help message can be shown without interface definition!
+            if (args.Exists("-h"))
             {
-                foreach (var pluginFolder in additionalPlugins)
-                {
-                    plugins.AddRange(Plugins<IPluginV1>.Load(pluginFolder));
-                }
+                var commandInstance = commands.Get(command[0]);
+                Console.WriteLine(commandInstance.HelpMessage());
+                return;
             }
+
+            // Interface is a required argument
+            var communicationInterface = args.Parse("-i");
+            if (communicationInterface.Count == 0)
+            {
+                Usage();
+                return;
+            }
+
+            var additionalPlugins = args.Parse("-p");
+            var plugins = LoadPlugins(additionalPlugins);
 
             // Find the correct plugin to use for communicating with the instrument
             var plugin = plugins.FirstOrDefault(p => p.Name.Equals(communicationInterface[0], StringComparison.CurrentCultureIgnoreCase));
@@ -72,8 +74,6 @@ namespace Scope
             {
                 var endPoint = communicationInterface[1].Split(':');
                 plugin.IPEndPoint = new IPEndPoint(IPAddress.Parse(endPoint[0]), int.Parse(endPoint[1]));
-
-                var commands = new Commands();
 
                 var commandInstance = commands.Get(command[0]);
 
@@ -85,10 +85,10 @@ namespace Scope
 
                 if (commandInstance.Parse(data))
                 {
-                    var outputFileName = args.Parse("-o");
-                    if (outputFileName.Count != 0)
+                    var outputFileName = args.Parse("-o").FirstOrDefault();
+                    if (outputFileName != null)
                     {
-                        File.WriteAllBytes(outputFileName.First(), data);
+                        File.WriteAllBytes(outputFileName, data);
                     }
                     else
                     {
@@ -109,6 +109,29 @@ namespace Scope
         }
 
         /// <summary>
+        /// Load all interface assemblies
+        /// </summary>
+        /// <param name="additionalPlugins">Additional plugins folder</param>
+        /// <returns></returns>
+        private static List<IPluginV1> LoadPlugins(List<string> additionalPlugins)
+        {
+            // Load the interface assemblies from the application's folder
+            var assemblyFolder = Assembly.GetEntryAssembly().GetAssemblyFolder();
+            var plugins = Plugins<IPluginV1>.Load(assemblyFolder).ToList();
+
+            // Load the interface assemblies from the specified folders
+            if (additionalPlugins.Count != 0)
+            {
+                foreach (var pluginFolder in additionalPlugins)
+                {
+                    plugins.AddRange(Plugins<IPluginV1>.Load(pluginFolder));
+                }
+            }
+
+            return plugins;
+        }
+
+        /// <summary>
         /// Prints the usage of the application to console
         /// </summary>
         private static void Usage()
@@ -123,6 +146,7 @@ namespace Scope
             Console.WriteLine(" -o <output-filename>");
             Console.WriteLine(" -p <plugin-folder> [<plugin-folder> ...]");
             Console.WriteLine(" -s (list of supported commands)");
+            Console.WriteLine(" -h (help message about the command)");
             Console.WriteLine();
             Console.WriteLine("Examples:");
             Console.WriteLine(" scope -i LAN 192.168.1.160:5555 -c IDN");
