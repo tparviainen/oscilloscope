@@ -1,10 +1,9 @@
 ﻿using PluginContracts;
 using System;
-using System.Threading.Tasks;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace LAN
 {
@@ -16,36 +15,47 @@ namespace LAN
 
         public IPEndPoint IPEndPoint { get; set; }
 
+        public int ReadTimeout { get; set; } = 500;
+
         public async Task<byte[]> SendReceiveAsync(string command)
         {
-            using (var socket = new Socket(IPEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
+            using (var client = new TcpClient())
             {
-                socket.Connect(IPEndPoint);
+                await client.ConnectAsync(IPEndPoint.Address, IPEndPoint.Port);
 
-                // Start with the initial size of the socket receive buffer
-                using (var ms = new MemoryStream(socket.ReceiveBufferSize))
+                using (var stream = client.GetStream())
                 {
-                    socket.Send(Encoding.ASCII.GetBytes(command + "\n"));
+                    stream.ReadTimeout = ReadTimeout;
 
-                    var data = new byte[1024];
+                    var writer = new BinaryWriter(stream);
+                    writer.Write(command + "\n");
+                    writer.Flush();
 
-                    int received = 0;
-
-                    do
+                    using (var ms = new MemoryStream())
                     {
-                        // Receive will block if no data available
-                        received = socket.Receive(data, data.Length, 0);
-
-                        // Zero bytes received means that socket has been closed by the remote host
-                        if (received != 0)
+                        try
                         {
-                            await ms.WriteAsync(data, 0, received);
+                            var reader = new BinaryReader(stream);
+
+                            do
+                            {
+                                var value = reader.ReadByte();
+                                ms.WriteByte(value);
+
+                                if (client.Available != 0)
+                                {
+                                    var values = reader.ReadBytes(client.Available);
+                                    ms.Write(values, 0, values.Length);
+                                }
+                            } while (true);
+                        }
+                        catch (Exception ex) when (ex.InnerException.GetType() == typeof(SocketException))
+                        {
+                            // ReadByte() method will eventually timeout ...
                         }
 
-                        // Read until terminator '\n' (0x0A) found from buffer
-                    } while (received != 0 && data[received - 1] != 0x0A);
-
-                    return ms.ToArray();
+                        return ms.ToArray();
+                    }
                 }
             }
         }
