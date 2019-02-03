@@ -53,6 +53,8 @@ namespace Scope
             if (args.Exists("-h"))
             {
                 var commandInstance = commands.Get(command[0]);
+                Console.WriteLine(commandInstance.Description);
+                Console.WriteLine();
                 Console.WriteLine(commandInstance.HelpMessage());
                 return;
             }
