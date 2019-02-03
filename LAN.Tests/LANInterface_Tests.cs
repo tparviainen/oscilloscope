@@ -56,5 +56,22 @@ namespace LAN.Tests
             Assert.True(ret);
             Assert.NotNull(resp);
         }
+
+        [Fact]
+        public async Task SendAutoscaleCommandAsync()
+        {
+            // Arrange
+            var ep = new IPEndPoint(IPAddress.Parse(IP), PORT);
+            var lanIf = new LANInterface() { IPEndPoint = ep };
+            var commands = new Commands();
+            var command = commands.Get<AUTOSCALE>();
+
+            // Act
+            var resp = await lanIf.SendReceiveAsync(command.Command());
+
+            // Assert
+            Assert.NotNull(resp);
+            Assert.True(resp.Length == 0);
+        }
     }
 }
