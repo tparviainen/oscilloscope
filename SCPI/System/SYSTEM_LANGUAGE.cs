@@ -1,8 +1,12 @@
-﻿namespace SCPI.System
+﻿using System.Text;
+
+namespace SCPI.System
 {
     public class SYSTEM_LANGUAGE : ICommand
     {
         public string Description => "Set or query the system language";
+
+        public string Language { get; private set; }
 
         public string Command(params string[] parameters)
         {
@@ -33,6 +37,16 @@
             return $"{syntax}\n{parameters}\n{example}";
         }
 
-        public bool Parse(byte[] data) => true;
+        public bool Parse(byte[] data)
+        {
+            if (data == null)
+            {
+                return false;
+            }
+
+            Language = Encoding.ASCII.GetString(data).Trim();
+
+            return true;
+        }
     }
 }
