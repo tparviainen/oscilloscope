@@ -1,7 +1,7 @@
 using SCPI.Display;
 using Xunit;
 
-namespace SCPI.Tests
+namespace SCPI.Tests.Display
 {
     public class DISPLAY_DATA_Tests
     {
