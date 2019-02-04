@@ -1,8 +1,10 @@
 using SCPI;
+using SCPI.Display;
+using SCPI.IEEE4882;
+using SCPI.System;
 using System;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -58,20 +60,20 @@ namespace LAN.Tests
         }
 
         [Fact]
-        public async Task SendAutoscaleCommandAsync()
+        public async Task QueryTheInstrumentLanguage()
         {
             // Arrange
             var ep = new IPEndPoint(IPAddress.Parse(IP), PORT);
             var lanIf = new LANInterface() { IPEndPoint = ep };
             var commands = new Commands();
-            var command = commands.Get<AUTOSCALE>();
+            var command = commands.Get<SYSTEM_LANGUAGE>();
 
             // Act
             var resp = await lanIf.SendReceiveAsync(command.Command());
 
             // Assert
             Assert.NotNull(resp);
-            Assert.True(resp.Length == 0);
+            Assert.True(resp.Length != 0);
         }
     }
 }
