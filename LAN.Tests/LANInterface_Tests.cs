@@ -12,8 +12,8 @@ namespace LAN.Tests
 {
     public class LANInterface_Tests
     {
-        private string IP = "192.168.1.160";
-        private int PORT = 5555;
+        private readonly string IP = "192.168.1.160";
+        private readonly int PORT = 5555;
 
         [Fact]
         public async Task QueryTheIdStringOfTheInstrumentAsync()
