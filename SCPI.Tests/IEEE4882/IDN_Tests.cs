@@ -2,7 +2,7 @@
 using System.Text;
 using Xunit;
 
-namespace SCPI.Tests
+namespace SCPI.Tests.IEEE4882
 {
     public class IDN_Tests
     {
