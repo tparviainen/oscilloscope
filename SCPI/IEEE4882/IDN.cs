@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 
-namespace SCPI
+namespace SCPI.IEEE4882
 {
     public class IDN : ICommand
     {
