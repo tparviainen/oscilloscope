@@ -97,7 +97,7 @@ namespace Scope
                         Console.WriteLine(Encoding.ASCII.GetString(data));
                     }
                 }
-                else
+                else if (data?.Length > 0)
                 {
                     // This happens when supported SCPI command is unable to parse received
                     // data, for RAW commands this will never happen.
