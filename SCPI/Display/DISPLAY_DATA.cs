@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace SCPI
+namespace SCPI.Display
 {
     public class DISPLAY_DATA : ICommand
     {
