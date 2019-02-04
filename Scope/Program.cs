@@ -4,6 +4,7 @@ using Scope.Extensions;
 using SCPI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,7 +18,7 @@ namespace Scope
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Scope v1.0\n");
+            Console.WriteLine("\nScope v1.0\n");
 
             try
             {
@@ -83,25 +84,23 @@ namespace Scope
 
                 var scpiCommand = commandInstance.Command(command.ToArray());
 
+                var stopWatch = Stopwatch.StartNew();
                 var data = await plugin.SendReceiveAsync(scpiCommand);
+                stopWatch.Stop();
 
-                if (commandInstance.Parse(data))
+                Console.WriteLine($"Operation took: {stopWatch.ElapsedMilliseconds} ms");
+                Console.WriteLine($"SCPI command parsing result: {commandInstance.Parse(data)}");
+                Console.WriteLine($"Amount of data received: {data.Length} bytes\n");
+
+                // Write output (zero or more bytes) always to either file or console
+                var outputFileName = args.Parse("-o").FirstOrDefault();
+                if (outputFileName != null)
                 {
-                    var outputFileName = args.Parse("-o").FirstOrDefault();
-                    if (outputFileName != null)
-                    {
-                        File.WriteAllBytes(outputFileName, data);
-                    }
-                    else
-                    {
-                        Console.WriteLine(Encoding.ASCII.GetString(data));
-                    }
+                    File.WriteAllBytes(outputFileName, data);
                 }
-                else if (data?.Length > 0)
+                else
                 {
-                    // This happens when supported SCPI command is unable to parse received
-                    // data, for RAW commands this will never happen.
-                    Console.WriteLine("Invalid reply from the instrument!");
+                    Console.WriteLine(Encoding.ASCII.GetString(data));
                 }
             }
             else
