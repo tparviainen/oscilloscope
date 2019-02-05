@@ -33,7 +33,7 @@ namespace SCPI.Display
             var syntax = nameof(DISPLAY_GRID) + "\n" +
                          nameof(DISPLAY_GRID) + " <grid>";
             var parameters = " <grid> = {"+ string.Join("|", gridRange) +"}\n";
-            var example = "Example: " + nameof(DISPLAY_GRID) + "?";
+            var example = "Example: " + nameof(DISPLAY_GRID) + " FULL";
 
             return $"{syntax}\n{parameters}\n{example}";
         }
