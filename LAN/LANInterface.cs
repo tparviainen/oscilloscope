@@ -42,7 +42,7 @@ namespace LAN
                                 var value = reader.ReadByte();
                                 ms.WriteByte(value);
 
-                                if (client.Available != 0)
+                                while (client.Available != 0)
                                 {
                                     var values = reader.ReadBytes(client.Available);
                                     ms.Write(values, 0, values.Length);
