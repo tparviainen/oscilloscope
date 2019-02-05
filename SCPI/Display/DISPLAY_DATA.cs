@@ -27,7 +27,7 @@ namespace SCPI.Display
             parameters += " <invert>, {{1|ON}|{0|OFF}}\n";
             parameters += " <format>, {BMP24|BMP8|PNG|JPEG|TIFF}\n\n";
 
-            parameters += "Example: " + nameof(DISPLAY_DATA) + " ON, 0, TIFF";
+            parameters += "Example: " + nameof(DISPLAY_DATA) + " ON, 0, BMP24";
 
             return parameters;
         }
