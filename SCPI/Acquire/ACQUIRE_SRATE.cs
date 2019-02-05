@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+﻿using SCPI.Extensions;
 using System.Text;
 
 namespace SCPI.Acquire
@@ -26,8 +26,7 @@ namespace SCPI.Acquire
                 return false;
             }
 
-            if (float.TryParse(Encoding.ASCII.GetString(data), NumberStyles.Any,
-                               CultureInfo.InvariantCulture, out float sampleRate))
+            if (Encoding.ASCII.GetString(data).ScientificNotationStringToFloat(out float sampleRate))
             {
                 SampleRate = sampleRate;
 
