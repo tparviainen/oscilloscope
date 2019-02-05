@@ -32,12 +32,7 @@ namespace SCPI.Extensions
         /// <returns>True if value was converted successfully; otherwise, false</returns>
         public static bool ScientificNotationStringToFloat(this string value, out float result)
         {
-            if (float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
-            {
-                return true;
-            }
-
-            return false;
+            return float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
         }
     }
 }
