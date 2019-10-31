@@ -18,6 +18,7 @@ namespace SCPI.Tests.System
             var result = cmd.Parse(Encoding.ASCII.GetBytes($"{expected}\n"));
 
             // Assert
+            Assert.True(result);
             Assert.Equal(expected, cmd.Language);
         }
     }

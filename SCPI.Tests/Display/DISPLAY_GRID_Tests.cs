@@ -36,7 +36,7 @@ namespace SCPI.Tests.Display
             var result = cmd.Parse(Encoding.ASCII.GetBytes(grid + "\n"));
 
             // Assert
-            Assert.False(false);
+            Assert.False(result);
             Assert.Null(cmd.Grid);
         }
     }

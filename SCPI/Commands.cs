@@ -7,7 +7,7 @@ namespace SCPI
 {
     public class Commands
     {
-        private Dictionary<string, ICommand> commands = new Dictionary<string, ICommand>();
+        private readonly Dictionary<string, ICommand> commands = new Dictionary<string, ICommand>();
 
         /// <summary>
         /// Creates a list of supported commands in the SCPI assembly
@@ -30,7 +30,7 @@ namespace SCPI
             if (!commands.TryGetValue(command, out ICommand cmd))
             {
                 // Lazy initialization of the command
-                var typeInfo = SupportedCommands().Where(ti => ti.Name.Equals(command)).Single();
+                var typeInfo = SupportedCommands().Single(ti => ti.Name.Equals(command));
 
                 cmd = (ICommand)Activator.CreateInstance(typeInfo.AsType());
 
@@ -53,7 +53,7 @@ namespace SCPI
             if (!commands.TryGetValue(command, out ICommand cmd))
             {
                 // Lazy initialization of the command
-                var typeInfo = SupportedCommands().Where(ti => ti.Name.Equals(command)).Single();
+                var typeInfo = SupportedCommands().Single(ti => ti.Name.Equals(command));
 
                 cmd = (ICommand)Activator.CreateInstance(typeInfo.AsType());
 
@@ -68,9 +68,7 @@ namespace SCPI
             var assembly = typeof(ICommand).GetTypeInfo().Assembly;
 
             // Supported commands are the ones that implement ICommand interface
-            var commands = assembly.DefinedTypes.Where(ti => ti.ImplementedInterfaces.Contains(typeof(ICommand)));
-
-            return commands;
+            return assembly.DefinedTypes.Where(ti => ti.ImplementedInterfaces.Contains(typeof(ICommand)));
         }
     }
 }

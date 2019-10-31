@@ -49,10 +49,8 @@ namespace LAN.Tests
             var resp = await lanIf.SendReceiveAsync(command.Command());
 
             var ret = command.Parse(resp);
-            if (ret == true)
-            {
+            if (ret)
                 File.WriteAllBytes($"Screenshot-{DateTime.Now:yyyyMMddTHHmmss}.bmp", command.ImageData());
-            }
 
             // Assert
             Assert.True(ret);
