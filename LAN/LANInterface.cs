@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LAN
@@ -27,9 +28,8 @@ namespace LAN
                 {
                     stream.ReadTimeout = ReadTimeout;
 
-                    var writer = new BinaryWriter(stream);
-                    writer.Write(command + "\n");
-                    writer.Flush();
+                    var data = Encoding.UTF8.GetBytes(command + "\n");
+                    await stream.WriteAsync(data, 0, data.Length);
 
                     using (var ms = new MemoryStream())
                     {
